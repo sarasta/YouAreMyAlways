@@ -1,0 +1,89 @@
+1. 添加数据方法：
+public MemberData AddHomelessMember(String nickname, String password,
+                                  String familyName, String name,
+                                  Boolean gender, String phone)
+            throws DataBaseError
+
+public MemberData AddMemberWithHome(String nickname, String password,String familyID,
+                                   String name, Boolean gender, String phone)
+            throws DataBaseError
+
+public void AddPhone(String phone, String memberID)
+            throws DataBaseSignal, DataBaseError
+
+public void AddGameRecord(String memberID, double correctness, Date date, int gameType)
+            throws DataBaseSignal, DataBaseError
+
+public void AddMemberRelation(String memberA, String memberB, MemberRelationData.RELATION relation)
+            throws DataBaseSignal, DataBaseError
+
+public void AddImage(String memberID, String name, String location, Date date, String note, String parentImage)
+            throws DataBaseSignal, DataBaseError
+
+public void AddThirdPartyAccount(String memberID, String account, int thirdPartyType)
+            throws DataBaseSignal, DataBaseError
+
+说明：
+* 家庭会自动创建，无法手动添加；
+* 除主码外字段皆可空，字符串以""表示，整型以0表示；
+
+2. 查询方法：
+public List<PhoneData> getPhoneList(String phone, String memberID)
+
+public List<FamilyData> getFamilyList(String ID, String name, String rootMemberID)
+
+public List<MemberData> getMemberList(String ID, String familyID, String name, String nickname)
+
+public List<MemberRelationData> getMemberRelationList(String member)
+
+public List<GameRecordData> getGameRecordList(String recordID, String memberID, int gameType)
+
+public List<PictureData> getPictureList(String ID, String name, String memberID, String location, String parentImage)
+
+public List<ThirdPartyAccountData> getThirdPartyAccountList(String memberID, String account, int thirdPartyType)
+
+说明：
+* 待查询字段设为空值即可，允许多字段查询；
+* 所有字段设为空值即可获得整张表；
+
+3. 局部修改方法：
+先通过查询获得字段，再通过.set<属性名>方法修改；
+
+4. 登录检验方法：
+public void LoginCheck_Phone(String phone, String password)
+            throws DataBaseSignal, DataBaseError
+
+public void LoginCheck_ThirdPartyAccount(String account, int thirdPartyType, String password)
+            throws DataBaseSignal, DataBaseError
+
+错误类型：
+        PhoneNumberConflict,
+        RelationConflict,
+        ThirdPartyAccountConflict,
+
+        MemberNotExist,
+        ParentImageNotExist,
+        ThirdPartyAccountNotExist,
+
+        WrongLoginPassWord,
+
+        UnknownError_AddFamily,
+        UnknownError_AddMember,
+        UnknownError_AddGameRecord,
+        UnknownError_AddPhone,
+        UnknownError_AddRelation,
+        UnknownError_AddImage,
+
+        UnknownError_PhoneData,
+        UnknownError_MemberData,
+        UnknownError_PictureData,
+        UnknownError_ThirdPartyAccountData
+
+信号类型：
+	CreatingNewFamily,
+        PhoneAddedAlready,
+        GameRecordAddedAlready,
+        MemberRelationAddedAlready,
+        ImageAddedAlready,
+        LoginSucceed,
+        UnknownSignal
